@@ -1,0 +1,11 @@
+{
+  "name"         : "tracking-app",
+  "version"      : "0.0.0",
+  "description"  : "Simple Tracking Application",
+  "main"         : "server.js",
+  "author"       : "Ankai Jie",
+  "dependencies" : {
+    "express"         : "~4.13.3",
+    "body-parser"     : "~1.4.3"
+  }
+}
