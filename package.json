@@ -4,8 +4,14 @@
   "description"  : "Simple Tracking Application",
   "main"         : "server.js",
   "author"       : "Ankai Jie",
+  "license"		 : "ISC",
+  "repository": {
+	  "type": "git",
+	  "url": "https://github.com/AnkaiJie/tracking-app.git"
+	},
   "dependencies" : {
     "express"         : "~4.13.3",
+    "mongoose"        : "~4.1.9",
     "body-parser"     : "~1.4.3"
   }
 }
