@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 })); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());
 
-//Setting up router
+// Setting up router
 var router = express.Router();
 app.use('/', router);
 
@@ -25,6 +25,21 @@ router.get('/', function(req, res) {
 	console.log('Test GET request works');
 	res.send('Got the GET request');
 });
+
+router.route('/addTracker').post(function(req, res) {
+	var tracker = new Tracker();
+	tracker.name = req.body.name;
+	tracker.pin = req.body.pin;
+	tracker.save(function(err) {
+		if (err) {
+			console.log(err);
+			res.send(err);
+		}
+		console.log('New Tracker added: ' + tracker);
+		res.send('New Tracker added:' + tracker);
+	});
+});
+
 
 // Listener (starting the app)
 app.listen(port);
@@ -39,7 +54,7 @@ console.log("Miracles occur in port " + port);
 // if (err) throw err;
 // console.log('New Tracker: ' + newTracker);
 // });
-// Tracker.findOneAndRemove({name: 'Larry Bird'}, function (err){
+// Tracker.findOneAndRemove({name: undefined}, function (err){
 // if(err) throw err;
 // console.log("User deleted");
 // });
