@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+//var Subject = require('./subjects.js');
 
 var trackerSchema = new Schema({
-	name : String,
-	pin : Number
+	username : String,
+	password: String,
+	subjects: []
 });
 
 var tracker = mongoose.model('Tracker', trackerSchema);

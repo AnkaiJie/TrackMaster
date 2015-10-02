@@ -19,6 +19,7 @@ app.use('/', router);
 
 // DB MODELS
 var Tracker = require('./DB-config/trackers.js');
+var Subject = require('./DB-config/subjects.js');
 
 // ROUTES
 router.get('/', function(req, res) {
@@ -28,8 +29,8 @@ router.get('/', function(req, res) {
 
 router.route('/addTracker').post(function(req, res) {
 	var tracker = new Tracker();
-	tracker.name = req.body.name;
-	tracker.pin = req.body.pin;
+	tracker.username = req.body.name;
+	tracker.password = req.body.password;
 	tracker.save(function(err) {
 		if (err) {
 			console.log(err);
@@ -38,6 +39,24 @@ router.route('/addTracker').post(function(req, res) {
 		console.log('New Tracker added: ' + tracker);
 		res.send('New Tracker added:' + tracker);
 	});
+});
+
+router.route('/addSubject').post(function(req, res) {
+	var subject = new Subject();
+	subject.username = req.body.name;
+	subject.password = req.body.password;
+	// random 5 digit number
+	subject.trackingId = Math.floor(Math.random() * 90000 + 10000);
+	subject.location = 'The subject has not yet checked in.';
+	subject.save(function(err) {
+		if (err) {
+			consolge.log(err);
+			res.send(err);
+		}
+		console.log('New Subject added: ' + subject);
+		res.send('New Subject added:' + subject);
+	});
+
 });
 
 
