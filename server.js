@@ -5,6 +5,7 @@ var port = process.env.PORT || 8000;
 var mongoose = require('mongoose');
 var database = require('./DB-config/database.js');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 // General config
 mongoose.connect(database.url);
@@ -21,12 +22,13 @@ app.use('/', router);
 var Tracker = require('./DB-config/trackers.js');
 var Subject = require('./DB-config/subjects.js');
 
-// ROUTES
-router.get('/', function(req, res) {
-	console.log('Test GET request works');
-	res.send('Got the GET request');
+//set up server for html pages
+app.use(express.static(path.resolve("./")));
+app.get('/', function(req, res) {
+	res.sendFile('./index.html');
 });
 
+//ROUTES
 router.route('/addTracker').post(function(req, res) {
 	var tracker = new Tracker();
 	tracker.username = req.body.name;
