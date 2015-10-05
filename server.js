@@ -29,9 +29,10 @@ app.get('/', function(req, res) {
 });
 
 //ROUTES
-router.route('/addTracker').post(function(req, res) {
+
+router.route('/addNewTracker').post(function(req, res) {
 	var tracker = new Tracker();
-	tracker.username = req.body.name;
+	tracker.username = req.body.username;
 	tracker.password = req.body.password;
 	tracker.save(function(err) {
 		if (err) {
@@ -43,9 +44,9 @@ router.route('/addTracker').post(function(req, res) {
 	});
 });
 
-router.route('/addSubject').post(function(req, res) {
+router.route('/addNewSubject').post(function(req, res) {
 	var subject = new Subject();
-	subject.username = req.body.name;
+	subject.username = req.body.username;
 	subject.password = req.body.password;
 	// random 5 digit number
 	subject.trackingId = Math.floor(Math.random() * 90000 + 10000);
@@ -75,7 +76,11 @@ console.log("Miracles occur in port " + port);
 // if (err) throw err;
 // console.log('New Tracker: ' + newTracker);
 // });
-// Tracker.findOneAndRemove({name: undefined}, function (err){
+// Tracker.findOneAndRemove({username: undefined}, function (err){
 // if(err) throw err;
 // console.log("User deleted");
 // });
+//Subject.findOneAndRemove({username: undefined}, function (err){
+//if(err) throw err;
+//console.log("User deleted");
+//});

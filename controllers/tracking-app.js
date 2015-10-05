@@ -35,6 +35,8 @@ app.controller('LoginController', function($scope, $location, $modal, $log) {
 app.controller('UserRegController', function($scope, $log, $modalInstance, $http) {
 
 	$scope.userTypes = [ 'Tracker', 'Subject' ];
+	
+	$scope.userTypeSelected = $scope.userTypes[0];
 
 	$scope.modalOk = function() {
 		$log.log('Form Submitted')
@@ -49,7 +51,7 @@ app.controller('UserRegController', function($scope, $log, $modalInstance, $http
 
 	$scope.post = function() {
 		$log.log("Entered Post Function");
-		var url = '';
+		var url = '/addNew' + $scope.userTypeSelected;
 		var data = $('#add-new-user').serialize();
 		$log.log("User data: " + data);
 		$http({

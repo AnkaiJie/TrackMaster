@@ -44,14 +44,14 @@
 			<div class="form-group">
 				<label for="userType" class="col-sm-3 control-label">Select
 					Your Role: </label>
-				<div class="col-sm-4" >
+				<div class="col-sm-4">
 					<select class="form-control" id="userType"
-						name="userType">
+						ng-model="userTypeSelected" name="userType">
 						<option ng-repeat="userType in userTypes">{{userType}}</option>
 					</select>
 				</div>
 			</div>
-			
+
 		</div>
 		<div class=modal-footer>
 			<button class="btn btn-primary" ng-click="modalOk()">OK</button>
