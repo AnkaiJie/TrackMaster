@@ -5,14 +5,33 @@ app.config([ '$routeProvider', function($routeProvider) {
 		templateUrl : 'views/login.html',
 		controller : 'LoginController'
 	});
-//	$routeProvider.when('/register', {
-//		templateUrl : 'views/userReg.html',
-//		controller : 'UserRegController'
-//	});
+	$routeProvider.when('/homeTracker', {
+		templateUrl : 'views/trackerHome.html',
+		controller : 'TrackerHomeController'
+	});
+	$routeProvider.when('/homeSubject', {
+		templateUrl : 'views/subjectHome.html',
+		controller : 'SubjectHomeController'
+	});
 	$routeProvider.otherwise({
 		redirectTo : '/login'
 	});
 } ]);
+
+//app.factory('getUserFactory', [ '$http', '$log', function($http, $log) {
+//
+//	var factory = {};
+//	factory.getUser = function(userType) {
+//		return $http.get('/get' + userType).then(function(response) {
+//			$log.log(response);
+//			if (response.data.tracker !== null) {
+//				return response.data.tracker;
+//			}
+//			return response.data.subject;
+//		});
+//	}
+//	return factory;
+//} ]);
 
 app.controller('LoginController', function($scope, $location, $modal, $log) {
 	// $scope.load = function(path){
@@ -20,9 +39,16 @@ app.controller('LoginController', function($scope, $location, $modal, $log) {
 	// $location.url(path);
 	// }
 
+	$scope.login = function() {
+		var user_data = $('user-login').serialize();
+		var returned_user = {};
+		
+	}
+
 	$scope.register = function() {
 		$scope.openModal();
 	}
+
 	$scope.openModal = function() {
 		var modalInstance = $modal.open({
 			// scope : $scope,
@@ -32,10 +58,11 @@ app.controller('LoginController', function($scope, $location, $modal, $log) {
 	}
 });
 
-app.controller('UserRegController', function($scope, $log, $modalInstance, $http) {
+app.controller('UserRegController', function($scope, $log, $modalInstance,
+		$http) {
 
 	$scope.userTypes = [ 'Tracker', 'Subject' ];
-	
+
 	$scope.userTypeSelected = $scope.userTypes[0];
 
 	$scope.modalOk = function() {
@@ -55,21 +82,32 @@ app.controller('UserRegController', function($scope, $log, $modalInstance, $http
 		var data = $('#add-new-user').serialize();
 		$log.log("User data: " + data);
 		$http({
-			url: url,
-			method: 'post',
-			headers: {
+			url : url,
+			method : 'post',
+			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded'
 			},
-			data: data
-		}).success(function(data,status,headers, config){
+			data : data
+		}).success(function(data, status, headers, config) {
 			$log.log('Post Success. Data: ' + data);
-		}).error(function(data,status,headers, config){
-			$log.log('Post Unsuccessful. Error: '+ error);
+		}).error(function(data, status, headers, config) {
+			$log.log('Post Unsuccessful. Error: ' + error);
 		})
 	}
-	
+
 });
 
-app.controller('SubjectRegController', function($scope) {
+app.controller('TrackerHomeController', function($scope) {
+	$scope.tracker = {
+		username : String,
+		subjects : []
+	}
+
+	$http.get({
+
+	})
+});
+
+app.controller('SubjectHomeController', function($scope) {
 
 });

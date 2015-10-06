@@ -18,6 +18,9 @@
 }
 
 .pad-low{
+	padding-bottom: 10px;
+}
 
-	padding-bottom: 50px;
+.login-button-group{
+	padding-top: 15px;
 }

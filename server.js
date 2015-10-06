@@ -3,9 +3,11 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 8000;
 var mongoose = require('mongoose');
-var database = require('./DB-config/database.js');
+var database = require('./models/database.js');
 var bodyParser = require('body-parser');
 var path = require('path');
+var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
 
 // General config
 mongoose.connect(database.url);
@@ -13,22 +15,26 @@ app.use(bodyParser.urlencoded({
 	'extended' : 'true'
 })); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());//passport is for user authentication
 
 // Setting up router
 var router = express.Router();
 app.use('/', router);
 
 // DB MODELS
-var Tracker = require('./DB-config/trackers.js');
-var Subject = require('./DB-config/subjects.js');
+var Tracker = require('./models/trackers.js');
+var Subject = require('./models/subjects.js');
 
-//set up server for html pages
+// set up server for html pages
 app.use(express.static(path.resolve("./")));
 app.get('/', function(req, res) {
 	res.sendFile('./index.html');
 });
 
-//ROUTES
+// ROUTES
+
+
 
 router.route('/addNewTracker').post(function(req, res) {
 	var tracker = new Tracker();
@@ -62,7 +68,6 @@ router.route('/addNewSubject').post(function(req, res) {
 
 });
 
-
 // Listener (starting the app)
 app.listen(port);
 console.log("Miracles occur in port " + port);
@@ -80,7 +85,7 @@ console.log("Miracles occur in port " + port);
 // if(err) throw err;
 // console.log("User deleted");
 // });
-//Subject.findOneAndRemove({username: undefined}, function (err){
-//if(err) throw err;
-//console.log("User deleted");
-//});
+// Subject.findOneAndRemove({username: undefined}, function (err){
+// if(err) throw err;
+// console.log("User deleted");
+// });

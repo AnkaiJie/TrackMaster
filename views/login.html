@@ -1,21 +1,32 @@
 
 <div class="col-md-offset-4 col-md-4">
 	<div class="login-box vertical-align">
-		<form class="form-group">
-			<div class="pad-low">
+		<form id="user-login" method="get" class="form-group pad-low">
+			<div>
 				<label class="col-sm-4"> Username: </label> <input
 					class="col-sm-6 form-input" type="text" placeholder="Username"
-					name="username"> <br /> <label class="col-sm-4">
-					Password: </label> <input class="col-sm-6 form-input" type="password"
-					placeholder="Password" name="password">
+					name="username">
 			</div>
+			<div>
+				<label class="col-sm-4"> Password: </label> <input
+					class="col-sm-6 form-input" type="password" placeholder="Password"
+					name="password">
+			</div>
+			<div>
+				<label class="col-sm-4"> User Type: </label>
+					<select id="userType" name="userType">
+						<option>Tracker</option>
+						<option>Subject</option>
+					</select>
+			</div>
+		</form>
+		<div>
 			<div class="col-sm-offset-3">
 				<div class="btn-group">
-					<button class="btn btn-primary" type="submit">Log in</button>
+					<button class="btn btn-primary" ng-click="login()">Log in</button>
 					<button class="btn btn-default" ng-click="register()">Register</button>
 				</div>
 			</div>
-		</form>
-
+		</div>
 	</div>
 </div>
