@@ -14,7 +14,7 @@ var subjectSchema = new Schema ({
 subjectSchema.plugin(passportLocalMongoose);
 
 subjectSchema.methods.validatePassword = function(password){
-	return bcrypt.hashSync(password, this.password)
+	return bcrypt.compareSync(password, this.password)
 }
 
 var subject = mongoose.model('Subject', subjectSchema);
