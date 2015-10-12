@@ -1,7 +1,7 @@
 
 <div class="col-md-offset-4 col-md-4">
 	<div class="login-box vertical-align">
-		<form id="user-login" method="get" class="form-group pad-low">
+		<form id="user-login" method="post" class="form-group pad-low">
 			<div>
 				<label class="col-sm-4"> Username: </label> <input
 					class="col-sm-6 form-input" type="text" placeholder="Username"
@@ -14,7 +14,7 @@
 			</div>
 			<div>
 				<label class="col-sm-4"> User Type: </label>
-					<select id="userType" name="userType">
+					<select id="userType" ng-model="userTypeSelected">
 						<option>Tracker</option>
 						<option>Subject</option>
 					</select>

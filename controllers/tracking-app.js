@@ -18,31 +18,52 @@ app.config([ '$routeProvider', function($routeProvider) {
 	});
 } ]);
 
-//app.factory('getUserFactory', [ '$http', '$log', function($http, $log) {
-//
-//	var factory = {};
-//	factory.getUser = function(userType) {
-//		return $http.get('/get' + userType).then(function(response) {
-//			$log.log(response);
-//			if (response.data.tracker !== null) {
-//				return response.data.tracker;
-//			}
-//			return response.data.subject;
-//		});
-//	}
-//	return factory;
-//} ]);
+app.service('userDataTransfer', function() {
+	var data = {};
 
-app.controller('LoginController', function($scope, $location, $modal, $log) {
+	return {
+		getData : function() {
+			return data;
+		},
+
+		setData : function(info) {
+			data = info;
+		}
+	}
+})
+
+app.controller('LoginController', function($scope, $location, $modal, $log,
+		$http, userDataTransfer) {
 	// $scope.load = function(path){
 	// $log.log("Redirect to: " + path);
 	// $location.url(path);
 	// }
+	$scope.userTypes = [ 'Tracker', 'Subject' ];
+
+	$scope.userTypeSelected = $scope.userTypes[0];
 
 	$scope.login = function() {
-		var user_data = $('user-login').serialize();
-		var returned_user = {};
-		
+		var user_data = $('#user-login').serialize();
+		var url = 'login' + $scope.userTypeSelected;
+		$scope.post(user_data, url);
+	}
+
+	$scope.post = function(data, url) {
+		$log.log("Entered Post Function");
+		$http({
+			url : url,
+			method : 'post',
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded'
+			},
+			data : data
+		}).success(function(data, status, headers, config) {
+			$log.log('Login Success. Data: ' + data);
+			userDataTransfer.setData(data);
+			$location.url('/home' + $scope.userTypeSelected);
+		}).error(function(data, status, headers, config) {
+			$log.log('Login Unsuccessful. Error: ' + error);
+		})
 	}
 
 	$scope.register = function() {
@@ -97,15 +118,10 @@ app.controller('UserRegController', function($scope, $log, $modalInstance,
 
 });
 
-app.controller('TrackerHomeController', function($scope) {
-	$scope.tracker = {
-		username : String,
-		subjects : []
-	}
+app.controller('TrackerHomeController', function($scope, userDataTransfer) {
+	$scope.tracker = userDataTransfer.getData();
+	
 
-	$http.get({
-
-	})
 });
 
 app.controller('SubjectHomeController', function($scope) {
