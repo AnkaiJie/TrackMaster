@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var database = require('./models/database.js');
 var bodyParser = require('body-parser');
 var path = require('path');
+var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -20,6 +21,11 @@ app.use(bodyParser.json());
 // resave : false,
 // saveUninitialized : false
 // }));
+app.use(session({
+	secret : 'Ankai Secret Session',
+	resave : false,
+	saveUninitialized : false
+}));
 app.use(passport.initialize());
 app.use(passport.session());// passport is for user authentication
 
@@ -97,6 +103,25 @@ app.get('/', function(req, res) {
 });
 
 // ROUTES
+router.route('/addSubjectToTracker').get(function(req, res) {
+	var addedSubject;
+	Subject.findOne({
+		trackingId : req.query.subjectId
+	}, function(err, subject) {
+		addedSubject = subject;
+	});
+	Tracker.findOne({
+		username : req.query.trackerName
+	}, function(err, tracker) {
+		tracker.subjects.push(addedSubject);
+		tracker.save(function(err) {
+			if (err)
+				res.status(500).send('Subject could not be added');
+		})
+		res.status(200).send(tracker);
+	});
+
+});
 
 router.route('/loginTracker').post(passport.authenticate('tracker'),
 		function(req, res) {
@@ -156,16 +181,16 @@ console.log("Miracles occur in port " + port);
 // if (err) throw err;
 // console.log('New Tracker: ' + newTracker);
 // });
-Tracker.remove({}, function(err) {
-	if (err)
-		throw err;
-	console.log("All Trackers Deleted");
-});
-Subject.remove({}, function(err) {
-	if (err)
-		throw err;
-	console.log("All Subjects Deleted");
-});
+ Tracker.remove({}, function(err) {
+ if (err)
+ throw err;
+ console.log("All Trackers Deleted");
+ });
+ Subject.remove({}, function(err) {
+ if (err)
+ throw err;
+ console.log("All Subjects Deleted");
+ });
 // router.route('/addNewTracker').post(function(req, res) {
 // var tracker = new Tracker();
 // tracker.username = req.body.username;
