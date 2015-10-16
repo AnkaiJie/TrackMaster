@@ -9,6 +9,7 @@ var path = require('path');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var request = require('request');
 
 // General config
 mongoose.connect(database.url);
@@ -106,34 +107,90 @@ app.get('/', function(req, res) {
 router.route('/addSubjectToTracker').get(function(req, res) {
 	var addedSubject;
 	Subject.findOne({
-		trackingId : req.query.subjectId
+		trackingId : req.query.subjectTrackingId
 	}, function(err, subject) {
 		addedSubject = subject;
 	});
 	Tracker.findOne({
 		username : req.query.trackerName
 	}, function(err, tracker) {
-		tracker.subjects.push(addedSubject);
+		tracker.subjects.push(addedSubject._id);
 		tracker.save(function(err) {
 			if (err)
 				res.status(500).send('Subject could not be added');
 		})
 		res.status(200).send(tracker);
 	});
+});
+
+// router.route('/refreshTracker').get(function(req, res) {
+// Tracker.findOne({
+// username : req.query.trackerName
+// }, function(err, tracker) {
+// res.send(tracker);
+// });
+// });
+
+router.route('/getTrackerSubjects').get(function(req, res) {
+	var trackerName = req.query.trackerName;
+	var subjectIds = [];
+	Tracker.findOne({
+		username : trackerName
+	}, function(err, tracker) {
+		var subjects = [];
+		subjectIds = tracker.subjects;
+		Subject.find({
+			_id : {
+				$in : subjectIds
+			}
+		}, function(err, subjects) {
+			res.send(subjects);
+		});
+	});
 
 });
 
-router.route('/loginTracker').post(passport.authenticate('tracker'),
-		function(req, res) {
-			console.log('authentication successful: ' + req.user);
-			res.send(req.user);
+router.route('/subjectLocation').post(function(req, res) {
+	var lon = req.body.longitude;
+	var lat = req.body.latitude;
+	var subjectName = req.body.username;
+	Subject.findOne({
+		username : subjectName
+	}, function(err, sub) {
+		if (err) {
+			console.log('error find: ' + err)
+			res.status(500).send(err);
+		}
+
+		request('https://api.mapbox.com/v4/geocode/mapbox.places/' + lon + ',' + lat + '.json?access_token=pk.eyJ1IjoiYW5rYWlqaWUiLCJhIjoiY2lmMmdya3o5MWl4N3Q1bTVvbWl5bTloaiJ9.j0get67vjdd3YJt9nr7o3w', function(error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var json = JSON.parse(body);
+				var location2 = json['features'][0]['place_name'];
+				console.log("ID: " + sub.id);
+				sub.location = location2;
+				sub.save(function(err) {
+					if (err) {
+						console.log('error save:' + err);
+						res.status(500).send(err);
+					}
+				});
+				res.status(200).send(sub);
+			}
 		});
 
-router.route('/loginSubject').post(passport.authenticate('subject'),
-		function(req, res) {
-			console.log('authentication successful: ' + req.user);
-			res.send(req.user);
-		});
+	});
+
+});
+
+router.route('/loginTracker').post(passport.authenticate('tracker'), function(req, res) {
+	console.log('authentication successful: ' + req.user);
+	res.status(200).send(req.user);
+});
+
+router.route('/loginSubject').post(passport.authenticate('subject'), function(req, res) {
+	console.log('authentication successful: ' + req.user);
+	res.status(200).send(req.user);
+});
 
 router.route('/addNewTracker').post(function(req, res) {
 	Tracker.register(new Tracker({
@@ -142,10 +199,10 @@ router.route('/addNewTracker').post(function(req, res) {
 	}), req.body.password, function(err, tracker) {
 		if (err) {
 			console.log('Error' + err);
-			res.send(err);
+			res.status(500).send(err);
 		}
 		passport.authenticate('tracker')(req, res, function() {
-			res.send('Success: ' + tracker);
+			res.status(200).send('Success: ' + tracker);
 		});
 	});
 
@@ -159,7 +216,7 @@ router.route('/addNewSubject').post(function(req, res) {
 	}), req.body.password, function(err, subject) {
 		if (err) {
 			console.log('Error' + err);
-			res.send(err);
+			res.status(500).send(err);
 		}
 		passport.authenticate('subject')(req, res, function() {
 			res.send('Success: ' + subject);
@@ -181,16 +238,16 @@ console.log("Miracles occur in port " + port);
 // if (err) throw err;
 // console.log('New Tracker: ' + newTracker);
 // });
- Tracker.remove({}, function(err) {
- if (err)
- throw err;
- console.log("All Trackers Deleted");
- });
- Subject.remove({}, function(err) {
- if (err)
- throw err;
- console.log("All Subjects Deleted");
- });
+// Tracker.remove({}, function(err) {
+// if (err)
+// throw err;
+// console.log("All Trackers Deleted");
+// });
+// Subject.remove({}, function(err) {
+// if (err)
+// throw err;
+// console.log("All Subjects Deleted");
+// });
 // router.route('/addNewTracker').post(function(req, res) {
 // var tracker = new Tracker();
 // tracker.username = req.body.username;

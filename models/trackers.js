@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt-nodejs');
 var trackerSchema = new Schema ({
 	username: String,
 	password: String,
-	subjects: []
+	subjects: [{type: Schema.Types.ObjectId, ref: 'Subject'}]
 });
 
 trackerSchema.plugin(passportLocalMongoose);

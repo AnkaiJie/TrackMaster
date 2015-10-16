@@ -30,7 +30,19 @@ app.service('userDataTransfer', function() {
 			data = info;
 		}
 	}
-})
+});
+
+app.factory('subjectsFactory',  function($http, $log) {
+
+	var factory = {};
+	factory.getSubjects = function(trackerName) {
+		return $http.get('/getTrackerSubjects?trackerName='+trackerName).then(function(response) {
+			$log.log(response);
+			return response.data.subjects;
+		});
+	}
+	return factory;
+});
 
 app.controller('LoginController', function($scope, $location, $modal, $log,
 		$http, userDataTransfer) {
@@ -118,9 +130,11 @@ app.controller('UserRegController', function($scope, $log, $modalInstance,
 
 });
 
-app.controller('TrackerHomeController', function($scope, userDataTransfer) {
+app.controller('TrackerHomeController', function($scope, userDataTransfer, subjectsFactory) {
 	$scope.tracker = userDataTransfer.getData();
-	
+	subjectsFactory.getSubjects($scope.tracker.username).then(function(data) {
+		$scope.subjects = data;
+	})
 
 });
 
