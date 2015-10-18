@@ -32,20 +32,19 @@ app.service('userDataTransfer', function() {
 	}
 });
 
-app.factory('subjectsFactory',  function($http, $log) {
+app.factory('subjectsFactory', function($http, $log) {
 
 	var factory = {};
 	factory.getSubjects = function(trackerName) {
-		return $http.get('/getTrackerSubjects?trackerName='+trackerName).then(function(response) {
+		return $http.get('/getTrackerSubjects?trackerName=' + trackerName).then(function(response) {
 			$log.log(response);
-			return response.data.subjects;
+			return response.data;
 		});
 	}
 	return factory;
 });
 
-app.controller('LoginController', function($scope, $location, $modal, $log,
-		$http, userDataTransfer) {
+app.controller('LoginController', function($scope, $location, $modal, $log, $http, userDataTransfer) {
 	// $scope.load = function(path){
 	// $log.log("Redirect to: " + path);
 	// $location.url(path);
@@ -91,8 +90,7 @@ app.controller('LoginController', function($scope, $location, $modal, $log,
 	}
 });
 
-app.controller('UserRegController', function($scope, $log, $modalInstance,
-		$http) {
+app.controller('UserRegController', function($scope, $log, $modalInstance, $http) {
 
 	$scope.userTypes = [ 'Tracker', 'Subject' ];
 
@@ -109,35 +107,78 @@ app.controller('UserRegController', function($scope, $log, $modalInstance,
 		$modalInstance.dismiss('cancel');
 	};
 
-	$scope.post = function() {
-		$log.log("Entered Post Function");
-		var url = '/addNew' + $scope.userTypeSelected;
-		var data = $('#add-new-user').serialize();
-		$log.log("User data: " + data);
-		$http({
-			url : url,
-			method : 'post',
-			headers : {
-				'Content-Type' : 'application/x-www-form-urlencoded'
-			},
-			data : data
-		}).success(function(data, status, headers, config) {
-			$log.log('Post Success. Data: ' + data);
-		}).error(function(data, status, headers, config) {
-			$log.log('Post Unsuccessful. Error: ' + error);
-		})
+	$scope.getUpdatedTracker = function(id) {
+		$log.log("Entered Get Updated Tracker Function");
+		$http.get('/addSubjectToTracker?subjectTrackingId=' + trackerName).then(function(response) {
+			$log.log(response);
+			return response.data;
+		});
 	}
 
 });
 
-app.controller('TrackerHomeController', function($scope, userDataTransfer, subjectsFactory) {
+app.controller('TrackerHomeController', function($scope, $log, $modal, $http, userDataTransfer, subjectsFactory) {
 	$scope.tracker = userDataTransfer.getData();
+
 	subjectsFactory.getSubjects($scope.tracker.username).then(function(data) {
 		$scope.subjects = data;
-	})
+	});
+
+	$scope.addSubjectDialog = function() {
+		var modalInstance = $modal.open({
+			scope : $scope,
+			templateUrl : 'views/addSubjectDialog.html',
+			controller : function($scope, $modalInstance, $log) {
+
+				$scope.newSubjectId;
+
+				$scope.ok = function() {
+					$log.log('form submitted.')
+					$scope.getNewTracker($scope.newSubjectId);
+					$modalInstance.close('ok');
+				};
+
+				$scope.pressedCancel = function() {
+					$log.log('closing.')
+					$modalInstance.dismiss('cancel');
+				};
+			}
+		});
+	}
+	$scope.getNewTracker = function(subjectId) {
+		$log.log("Entered getNewTracker Function");
+		$http.get('/addSubjectToTracker?trackerName=' + $scope.tracker.username + '&subjectTrackingId=' + subjectId).then(function(response) {
+			$log.log(response);
+			$scope.tracker = response.data;
+			$scope.refreshSubjects();
+		});
+	}
+
+	$scope.refreshSubjects = function() {
+		subjectsFactory.getSubjects($scope.tracker.username).then(function(data) {
+			$scope.subjects = data;
+		});
+	}
 
 });
 
-app.controller('SubjectHomeController', function($scope) {
+app.controller('SubjectHomeController', function($scope, $log, $http, userDataTransfer) {
+	$scope.subject = userDataTransfer.getData();
+
+	$scope.updateLocation = function() {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			$log.log(position);
+			$scope.lon = position.coords.longitude;
+			$scope.lat = position.coords.latitude;
+			$scope.updateSubject();
+		});
+	}
+
+	$scope.updateSubject = function() {
+		$http.get('/subjectLocation?subUsername=' + $scope.subject.username + '&longitude=' + $scope.lon + '&latitude=' + $scope.lat).then(function(response) {
+			$log.log('update Subject data: ' + response.data);
+			$scope.subject = response.data;
+		});
+	}
 
 });

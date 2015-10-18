@@ -110,6 +110,7 @@ router.route('/addSubjectToTracker').get(function(req, res) {
 		trackingId : req.query.subjectTrackingId
 	}, function(err, subject) {
 		addedSubject = subject;
+		console.log(addedSubject);
 	});
 	Tracker.findOne({
 		username : req.query.trackerName
@@ -150,10 +151,10 @@ router.route('/getTrackerSubjects').get(function(req, res) {
 
 });
 
-router.route('/subjectLocation').post(function(req, res) {
-	var lon = req.body.longitude;
-	var lat = req.body.latitude;
-	var subjectName = req.body.username;
+router.route('/subjectLocation').get(function(req, res) {
+	var lon = req.query.longitude;
+	var lat = req.query.latitude;
+	var subjectName = req.query.subUsername;
 	Subject.findOne({
 		username : subjectName
 	}, function(err, sub) {

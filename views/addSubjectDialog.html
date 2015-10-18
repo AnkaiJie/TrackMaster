@@ -1,0 +1,24 @@
+<form id="add-sub-to-tracker" method="get">
+	<div class="modal-content">
+		<div class=modal-header>
+			<h4>
+				<strong>Add a New Tracked Subject</strong>
+			</h4>
+		</div>
+		<div class="modal-body form-horizontal">
+
+			<div class="form-group">
+				<label for="trackingId" class="col-sm-3 control-label">Tracking
+					ID: </label>
+				<div class="col-sm-6">
+					<input id="trackingId" ng-model='newSubjectId' type="text">
+				</div>
+			</div>
+
+		</div>
+		<div class=modal-footer>
+			<button class="btn btn-primary" ng-click="ok()">OK</button>
+			<button class="btn btn-danger" ng-click="pressedCancel()">Cancel</button>
+		</div>
+	</div>
+</form>

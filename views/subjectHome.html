@@ -1,4 +1,12 @@
 <div>
-{{}}
-
+	<h1>Hello, {{subject.username}}</h1>
+	<br>
+	<div>
+		<p>Your tracking Id is : {{subject.trackingId}}</p>
+		<p>Your last location is: {{subject.location}}</p>
+	</div>
+	<div class="container">
+		<button type="button" class="btn btn-warning"
+			ng-click="updateLocation()">Check In!</button>
+	</div>
 </div>

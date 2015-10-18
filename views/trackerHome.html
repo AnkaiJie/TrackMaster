@@ -1,4 +1,28 @@
 <div>
-<h1>Hello, {{tracker.username}}</h1>
-
+	<h1>Hello, {{tracker.username}}</h1>
+	<div>
+		<table class="table table-striped">
+			<caption style="border: inherit;">
+				<strong>Your Subjects</strong>
+			</caption>
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Tracking ID</th>
+					<th>Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="subject in subjects">
+					<td>{{subject.username}}</td>
+					<td>{{subject.trackingId}}</td>
+					<td>{{subject.location}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="container">
+		<button type="button" class="btn btn-primary"
+			ng-click="addSubjectDialog()">Add New</button>
+	</div>
 </div>
