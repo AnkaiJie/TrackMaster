@@ -107,12 +107,20 @@ app.controller('UserRegController', function($scope, $log, $modalInstance, $http
 		$modalInstance.dismiss('cancel');
 	};
 
-	$scope.getUpdatedTracker = function(id) {
-		$log.log("Entered Get Updated Tracker Function");
-		$http.get('/addSubjectToTracker?subjectTrackingId=' + trackerName).then(function(response) {
-			$log.log(response);
-			return response.data;
-		});
+	$scope.post = function() {
+		$log.log("Entered Register Post Function");
+		$http({
+			url : '/addNew' + $scope.userTypeSelected,
+			method : 'post',
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded'
+			},
+			data : $('#add-new-user').serialize()
+		}).success(function(data, status, headers, config) {
+			$log.log('Register Success. Data: ' + data);
+		}).error(function(data, status, headers, config) {
+			$log.log('Register Unsuccessful. Error: ' + error);
+		})
 	}
 
 });
