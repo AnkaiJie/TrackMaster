@@ -124,6 +124,28 @@ router.route('/addSubjectToTracker').get(function(req, res) {
 	});
 });
 
+router.route('/deleteSubjectFromTracker').get(function(req,res){
+	var deleteSub;
+	Subject.findOne({
+		trackingId: req.query.subjectTrackingId
+	}, function(err, subject){
+		deleteSub = subject;
+		console.log(deleteSub);
+	});
+	Tracker.findOne({
+		username: req.query.trackerName
+	}, function(err, tracker){
+		var index = tracker.subjects.indexOf(deleteSub._id);
+		tracker.subjects.splice(index, 1);
+		tracker.save(function(err){
+			if (err)
+				res.status(500).send('Subject could not be deleted');
+		});
+		console.log('Delete subject from tracker success');
+		res.status(200).send(tracker);
+	});
+});
+
 // router.route('/refreshTracker').get(function(req, res) {
 // Tracker.findOne({
 // username : req.query.trackerName

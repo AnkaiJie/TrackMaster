@@ -1,9 +1,12 @@
-<div>
-	<h1>Hello, {{tracker.username}}</h1>
+
+
+
+<div class="container">
+	<h1 class="text-center">Hello, {{tracker.username}}</h1>
 	<div>
 		<table class="table table-striped">
 			<caption style="border: inherit;">
-				<strong>Your Subjects</strong>
+				<strong>Your Tracked Subjects</strong>
 			</caption>
 			<thead>
 				<tr>
@@ -17,11 +20,15 @@
 					<td>{{subject.username}}</td>
 					<td>{{subject.trackingId}}</td>
 					<td>{{subject.location}}</td>
+					<td>
+						<button type="button" class="btn btn-danger"
+							ng-click="deleteSubject(subject.trackingId)">Delete</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div class="container">
+	<div>
 		<button type="button" class="btn btn-primary"
 			ng-click="addSubjectDialog()">Add New</button>
 	</div>

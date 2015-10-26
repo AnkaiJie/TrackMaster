@@ -51,7 +51,7 @@ app.controller('LoginController', function($scope, $location, $modal, $log, $htt
 	// }
 	$scope.userTypes = [ 'Tracker', 'Subject' ];
 
-	$scope.userTypeSelected = $scope.userTypes[0];
+	$scope.userTypeSelected = 'Select User Type';
 
 	$scope.login = function() {
 		var user_data = $('#user-login').serialize();
@@ -156,6 +156,15 @@ app.controller('TrackerHomeController', function($scope, $log, $modal, $http, us
 	$scope.getNewTracker = function(subjectId) {
 		$log.log("Entered getNewTracker Function");
 		$http.get('/addSubjectToTracker?trackerName=' + $scope.tracker.username + '&subjectTrackingId=' + subjectId).then(function(response) {
+			$log.log(response);
+			$scope.tracker = response.data;
+			$scope.refreshSubjects();
+		});
+	}
+	
+	$scope.deleteSubject = function (subjectId){
+		$log.log("Entered deleteSubject Function");
+		$http.get('/deleteSubjectFromTracker?trackerName=' + $scope.tracker.username + '&subjectTrackingId=' + subjectId).then(function(response) {
 			$log.log(response);
 			$scope.tracker = response.data;
 			$scope.refreshSubjects();

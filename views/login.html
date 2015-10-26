@@ -1,31 +1,32 @@
 
 <div class="col-md-offset-4 col-md-4">
 	<div class="login-box vertical-align">
+		<div class= "text-center pad-low">
+		<h3>Welcome to TrackMaster</h3>
+		<p>Please Login</p>
+		</div>
 		<form id="user-login" method="post" class="form-group pad-low">
 			<div>
-				<label class="col-sm-4"> Username: </label> <input
-					class="col-sm-6 form-input" type="text" placeholder="Username"
+				<input class="form-control" type="text" placeholder="Username"
 					name="username">
 			</div>
 			<div>
-				<label class="col-sm-4"> Password: </label> <input
-					class="col-sm-6 form-input" type="password" placeholder="Password"
+				<input class="form-control" type="password" placeholder="Password"
 					name="password">
 			</div>
 			<div>
-				<label class="col-sm-4"> User Type: </label>
-					<select id="userType" ng-model="userTypeSelected">
-						<option>Tracker</option>
-						<option>Subject</option>
-					</select>
+				<select class="form-control " id="userType"
+					ng-model="userTypeSelected">
+					<option selected disabled >Select User Type</option>
+					<option>Tracker</option>
+					<option>Subject</option>
+				</select>
 			</div>
 		</form>
-		<div>
-			<div class="col-sm-offset-3">
-				<div class="btn-group">
-					<button class="btn btn-primary" ng-click="login()">Log in</button>
-					<button class="btn btn-default" ng-click="register()">Register</button>
-				</div>
+		<div class="text-center">
+			<div class="btn-group">
+				<button class="btn btn-primary" ng-click="login()">Log in</button>
+				<button class="btn btn-default" ng-click="register()">Register</button>
 			</div>
 		</div>
 	</div>
