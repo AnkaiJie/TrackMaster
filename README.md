@@ -1,4 +1,4 @@
-# tracking-app
+# Track Master - Complete MEAN Stack web application
 Tracks the location of users when they check in.
 
 Tracking-app has two types of users: trackers and subjects.
