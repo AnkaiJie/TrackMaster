@@ -43,3 +43,16 @@ body {
 .login-button-group {
 	padding-top: 15px;
 }
+
+.error-text{
+	padding: 1px;
+	color: red;
+}
+
+.navbar-brand:hover{
+	cursor: default;
+}
+
+.subLo{
+	padding-top: 3px;
+}

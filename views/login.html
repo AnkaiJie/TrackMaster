@@ -1,33 +1,31 @@
-
 <div class="col-md-offset-4 col-md-4">
-	<div class="login-box vertical-align">
-		<div class= "text-center pad-low">
-		<h3>Welcome to TrackMaster</h3>
-		<p>Please Login</p>
-		</div>
-		<form id="user-login" method="post" class="form-group pad-low">
-			<div>
-				<input class="form-control" type="text" placeholder="Username"
-					name="username">
-			</div>
-			<div>
-				<input class="form-control" type="password" placeholder="Password"
-					name="password">
-			</div>
-			<div>
-				<select class="form-control " id="userType"
-					ng-model="userTypeSelected">
-					<option selected disabled >Select User Type</option>
-					<option>Tracker</option>
-					<option>Subject</option>
-				</select>
-			</div>
-		</form>
-		<div class="text-center">
-			<div class="btn-group">
-				<button class="btn btn-primary" ng-click="login()">Log in</button>
-				<button class="btn btn-default" ng-click="register()">Register</button>
-			</div>
-		</div>
-	</div>
+    <div class="login-box vertical-align">
+        <div class="text-center pad-low">
+            <h3>Welcome to TrackMaster</h3>
+            <p>Please Login</p>
+        </div>
+        <form id="user-login" method="post" class="form-group pad-low">
+            <div>
+                <input class="form-control" type="text" placeholder="Username" name="username">
+            </div>
+            <div>
+                <input class="form-control" type="password" placeholder="Password" name="password">
+            </div>
+            <div ng-show='badLogin' class="error-text">*Invalid Login Credentials</div>
+            <div ng-show='noUserType' class="error-text">*Please select a valid user type.</div>
+            <div>
+                <select class="form-control " id="userType" ng-model="userTypeSelected">
+                    <option selected disabled>Select User Type</option>
+                    <option>Tracker</option>
+                    <option>Subject</option>
+                </select>
+            </div>
+        </form>
+        <div class="text-center">
+            <div class="btn-group">
+                <button class="btn btn-primary" ng-click="login()">Log in</button>
+                <button class="btn btn-default" ng-click="register()">Register</button>
+            </div>
+        </div>
+    </div>
 </div>

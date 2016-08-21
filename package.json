@@ -18,6 +18,7 @@
     "passport-local"  : "latest",
     "passport-local-mongoose" : "latest",
     "bcrypt-nodejs"			: "latest",
-    "request"			: "latest"
+    "request"			: "latest",
+    "cookie-parser": "latest"
   }
 }

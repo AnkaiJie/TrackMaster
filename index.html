@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Welcome to TrackMaster</title>
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="css/stylesheet.css" rel="stylesheet">
-<!-- <link -->
-<!-- 	href="//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" -->
-<!-- 	rel="stylesheet"> -->
 
-<style>
-</style>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Welcome to TrackMaster</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/stylesheet.css" rel="stylesheet">
+    <!-- <link -->
+    <!-- 	href="//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" -->
+    <!-- 	rel="stylesheet"> -->
+
+    <style>
+
+    </style>
 
 </head>
 
 <body ng-app="tracking-app">
-	<nav class="navbar navbar-inverse navbar-static-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand">TrackMaster</a>
-			</div>
-		</div>
-	</nav>
-	<div class="container">
-		<div ng-view></div>
-	</div>
 
-	<footer>
-		<div class="navbar navbar-inverse navbar-fixed-bottom"></div>
-	</footer>
+    <nav ng-controller="HeaderController" class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header"><a ng-click="reset()" class="navbar-brand">TrackMaster</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div ng-view></div>
+    </div>
+
+    <footer>
+        <div class="navbar navbar-inverse navbar-fixed-bottom"></div>
+    </footer>
 
 </body>
 
 <!-- Libraries -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <!-- My Scripts -->
 <script src="controllers/tracking-app.js"></script>
+
 </html>
