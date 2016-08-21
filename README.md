@@ -8,7 +8,13 @@ updated location on the tracker account.
 
 
 HOW TO RUN:
-Run node server.js 
+
+Run the following commands in the application's root directory.
+```javascript
+npm install
+node server.js
+```
+
 Access the application through http://localhost:8000
 
 Sample logins for tracker
