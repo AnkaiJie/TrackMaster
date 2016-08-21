@@ -17,18 +17,25 @@ node server.js
 
 Access the application through http://localhost:8000
 
-Sample logins for tracker
+Sample logins for trackers
 
 Username: tracker1
+
 Password: tracker1
 
+
 Sample logins for subjects
+
 Username: subject1
+
 Password: subject1
 
 Username: subject2
+
 Password: subject2
 
 Username: subject3
+
 Password: subject3
+
 
